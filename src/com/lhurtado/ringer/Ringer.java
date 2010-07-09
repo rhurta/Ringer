@@ -6,18 +6,21 @@ import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.AudioManager;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
 public class Ringer extends AppWidgetProvider {
 
-	public static final String SHARED_PREFS_NAME = "RingerSettings";
 	private static final String LOG_TAG = "RingerProvider";
 	public static String CLICK = "Click";
-	public static String DOULBLE_CLICK = "DoubleClick";
     private static final int[] IMAGES = { R.drawable.loud, R.drawable.normal, R.drawable.vibrate, R.drawable.silence};
+    
+    public static final String SHARED_PREFS_NAME = "RingerSettings";
+    SharedPreferences prefs;
         
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -38,12 +41,23 @@ public class Ringer extends AppWidgetProvider {
     		//get current view
     		RemoteViews remoteView = new RemoteViews(context.getPackageName(), R.layout.widget);
    			
+    		//Preferences
+        	prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        	int normal = prefs.getInt("normal_profile", 50);
+			int loud = prefs.getInt("loud_profile", 100);
+    		
     		//AudioManager auxiliary variables
    			AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
    			int ringerMode = audioManager.getRingerMode();
    			int actualVolume  = audioManager.getStreamVolume(AudioManager.STREAM_RING);
    			int maxVolume  = audioManager.getStreamMaxVolume(AudioManager.STREAM_RING);
-   			int halfVolume = Math.round(maxVolume/2);
+   			
+   			if(loud<=normal){
+				loud = normal + 100/maxVolume;
+			}
+   			
+   			normal = Math.round(normal*maxVolume/100);
+   			loud = Math.round(loud*maxVolume/100);
    			
    			//Message for Toast
    			String msg = "Ringer Widget";
@@ -62,7 +76,7 @@ public class Ringer extends AppWidgetProvider {
 		        
 	            //get actual ringer state and update widget icon
 	            if (ringerMode==AudioManager.RINGER_MODE_NORMAL){
-	            	if(actualVolume>halfVolume){
+	            	if(actualVolume>normal){
 		            	 remoteView.setImageViewResource(R.id.image, IMAGES[0]);
 		            	 msg = "Loud Mode";
 	            	}else{
@@ -84,10 +98,10 @@ public class Ringer extends AppWidgetProvider {
     			Log.d(LOG_TAG, "onReceive():CLICK ");
        			//Ringer State Change RINGER_MODE_LOUD-->RINGER_MODE_NORMAL-->RINGER_MODE_VIBRATE-->RINGER_MODE_SILENT
                 if (ringerMode==AudioManager.RINGER_MODE_NORMAL){
-                	if(actualVolume>halfVolume){
+                	if(actualVolume>normal){
                 		remoteView.setImageViewResource(R.id.image, IMAGES[1]);
                     	msg = "Normal Mode";
-                    	audioManager.setStreamVolume(AudioManager.STREAM_RING, halfVolume, 0);
+                    	audioManager.setStreamVolume(AudioManager.STREAM_RING, normal, 0);
                 	}else{
 	                	remoteView.setImageViewResource(R.id.image, IMAGES[2]);
 	                	msg = "Vibrate Mode";
@@ -101,7 +115,7 @@ public class Ringer extends AppWidgetProvider {
                 	remoteView.setImageViewResource(R.id.image, IMAGES[0]);
                 	msg = "Loud Mode";
                 	audioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
-                	audioManager.setStreamVolume(AudioManager.STREAM_RING, maxVolume, 0);
+                	audioManager.setStreamVolume(AudioManager.STREAM_RING, loud, 0);
                 }
                 
     		}
@@ -112,7 +126,7 @@ public class Ringer extends AppWidgetProvider {
 
 	 	        //get actual ringer state and update widget icon
 	             if (ringerMode==AudioManager.RINGER_MODE_NORMAL){
-	            	 if(actualVolume>halfVolume){
+	            	 if(actualVolume>normal){
 		            	 remoteView.setImageViewResource(R.id.image, IMAGES[0]);
 		            	 msg = "Loud Mode";
 	            	}else{

@@ -6,14 +6,20 @@
 
 	<com.hlidskialf.android.preference.SeekBarPreference
 		android:id="@+id/normal_profile"
-		android:key="flowAlpha" 
-		android:title="@string/alpha_title"
-		android:summary="@string/alpha_summary"/>
+		android:key="normal_profile" 
+		android:title="@string/normal_title"
+		android:summary="@string/normal_summary"
+		android:defaultValue="50"
+        android:text=" %"
+		android:max="100"/>
 
 	<com.hlidskialf.android.preference.SeekBarPreference
 		android:id="@+id/loud_profile"
-		android:key="flowCurves" 
-		android:title="@string/curves_title"
-		android:summary="@string/curves_summary"/>
+		android:key="loud_profile" 
+		android:title="@string/loud_title"
+		android:summary="@string/loud_summary"
+		android:defaultValue="100"
+        android:text=" %"
+		android:max="100"/>
 		
 </PreferenceScreen>
