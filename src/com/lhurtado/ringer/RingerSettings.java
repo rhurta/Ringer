@@ -1,9 +1,12 @@
 package com.lhurtado.ringer;
 
+import com.hlidskialf.android.preference.SeekBarPreference;
+
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.view.KeyEvent;
@@ -20,6 +23,11 @@ public class RingerSettings extends PreferenceActivity
         getPreferenceManager().setSharedPreferencesName(Ringer.SHARED_PREFS_NAME);
         addPreferencesFromResource(R.xml.settings);
         getPreferenceManager().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
+        
+/*        SeekBarPreference sb = (SeekBarPreference)findViewById(R.id.normal_profile);
+        Context context = RingerSettings.this;
+        AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+        int maxVolume  = audioManager.getStreamMaxVolume(AudioManager.STREAM_RING);*/
     }
 
     @Override

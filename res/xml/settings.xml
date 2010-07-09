@@ -5,17 +5,15 @@
 	android:key="flowLWP_settings">
 
 	<com.hlidskialf.android.preference.SeekBarPreference
+		android:id="@+id/normal_profile"
 		android:key="flowAlpha" 
 		android:title="@string/alpha_title"
-		android:summary="@string/alpha_summary" 
-		android:defaultValue="40"
-		android:max="255" />
+		android:summary="@string/alpha_summary"/>
 
 	<com.hlidskialf.android.preference.SeekBarPreference
+		android:id="@+id/loud_profile"
 		android:key="flowCurves" 
 		android:title="@string/curves_title"
-		android:summary="@string/curves_summary" 
-		android:defaultValue="10"
-		android:max="20" />
+		android:summary="@string/curves_summary"/>
 		
 </PreferenceScreen>

@@ -23,6 +23,7 @@ public class Ringer extends AppWidgetProvider {
     public void onReceive(Context context, Intent intent) {
     	//Get action intent broadcast
     	final String action = intent.getAction(); 
+    	Log.d(LOG_TAG, "onReceive(): "+action);
     	
     	// v1.5 fix that doesn't call onDelete Action 
     	if (AppWidgetManager.ACTION_APPWIDGET_DELETED.equals(action)) {
@@ -48,7 +49,7 @@ public class Ringer extends AppWidgetProvider {
    			String msg = "Ringer Widget";
    			
    			//Update widget action
-   			if (AppWidgetManager.ACTION_APPWIDGET_UPDATE.equals(action)){
+   			if (AppWidgetManager.ACTION_APPWIDGET_UPDATE.equals(action) || action==null){
    				Log.d(LOG_TAG, "onReceive():ACTION_APPWIDGET_UPDATE ");
 
 	   			// Create an Intent to handle click event
