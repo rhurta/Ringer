@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Ringer</string>
+    <string name="description">Ringer</string>
+    <string name="author">Rodolfo Hurtado V</string>
+
+    <string name="settings">Settings</string>
+    <string name="color_title">Select Color</string>
+    <string name="color_summary">Choose color to display</string>
+    
+    <string name="alpha_title">Select Alpha</string>
+    <string name="alpha_summary">Choose transparency</string>
+    
+    <string name="curves_title">Select Number of Curves</string>
+    <string name="curves_summary">Choose number of curves</string>
+    
+</resources>

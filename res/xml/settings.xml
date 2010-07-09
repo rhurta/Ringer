@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+	android:title="@string/settings" 
+	android:key="flowLWP_settings">
+
+	<com.hlidskialf.android.preference.SeekBarPreference
+		android:key="flowAlpha" 
+		android:title="@string/alpha_title"
+		android:summary="@string/alpha_summary" 
+		android:defaultValue="40"
+		android:max="255" />
+
+	<com.hlidskialf.android.preference.SeekBarPreference
+		android:key="flowCurves" 
+		android:title="@string/curves_title"
+		android:summary="@string/curves_summary" 
+		android:defaultValue="10"
+		android:max="20" />
+		
+</PreferenceScreen>
