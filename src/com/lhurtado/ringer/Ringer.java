@@ -42,7 +42,7 @@ public class Ringer extends AppWidgetProvider {
     		RemoteViews remoteView = new RemoteViews(context.getPackageName(), R.layout.widget);
    			
     		//Preferences
-        	prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        	prefs = context.getSharedPreferences(SHARED_PREFS_NAME, 0);
         	int normal = prefs.getInt("normal_profile", 50);
 			int loud = prefs.getInt("loud_profile", 100);
     		
@@ -58,9 +58,6 @@ public class Ringer extends AppWidgetProvider {
    			
    			normal = Math.round(normal*maxVolume/100);
    			loud = Math.round(loud*maxVolume/100);
-   			
-   			//Message for Toast
-   			String msg = "Ringer Widget";
    			
    			//Update widget action
    			if (AppWidgetManager.ACTION_APPWIDGET_UPDATE.equals(action) || action==null){
@@ -78,17 +75,13 @@ public class Ringer extends AppWidgetProvider {
 	            if (ringerMode==AudioManager.RINGER_MODE_NORMAL){
 	            	if(actualVolume>normal){
 		            	 remoteView.setImageViewResource(R.id.image, IMAGES[0]);
-		            	 msg = "Loud Mode";
 	            	}else{
 	            		remoteView.setImageViewResource(R.id.image, IMAGES[1]);
-		            	msg = "Normal Mode";
 	            	}
 	             }else if(ringerMode==AudioManager.RINGER_MODE_VIBRATE){
 	            	 remoteView.setImageViewResource(R.id.image, IMAGES[2]);
-	            	 msg = "Vibrate Mode";
 	             }else if(ringerMode==AudioManager.RINGER_MODE_SILENT){
 	            	 remoteView.setImageViewResource(R.id.image, IMAGES[3]);
-	            	 msg = "Silent Mode";
 	             }       
    			}
             
@@ -100,20 +93,16 @@ public class Ringer extends AppWidgetProvider {
                 if (ringerMode==AudioManager.RINGER_MODE_NORMAL){
                 	if(actualVolume>normal){
                 		remoteView.setImageViewResource(R.id.image, IMAGES[1]);
-                    	msg = "Normal Mode";
                     	audioManager.setStreamVolume(AudioManager.STREAM_RING, normal, 0);
                 	}else{
 	                	remoteView.setImageViewResource(R.id.image, IMAGES[2]);
-	                	msg = "Vibrate Mode";
 	                	audioManager.setRingerMode(AudioManager.RINGER_MODE_VIBRATE);
                 	}
                 }else if(ringerMode==AudioManager.RINGER_MODE_VIBRATE){
                 	remoteView.setImageViewResource(R.id.image, IMAGES[3]);
-                	msg = "Silent Mode";
                 	audioManager.setRingerMode(AudioManager.RINGER_MODE_SILENT);
                 }else if(ringerMode==AudioManager.RINGER_MODE_SILENT){
                 	remoteView.setImageViewResource(R.id.image, IMAGES[0]);
-                	msg = "Loud Mode";
                 	audioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
                 	audioManager.setStreamVolume(AudioManager.STREAM_RING, loud, 0);
                 }
@@ -128,17 +117,13 @@ public class Ringer extends AppWidgetProvider {
 	             if (ringerMode==AudioManager.RINGER_MODE_NORMAL){
 	            	 if(actualVolume>normal){
 		            	 remoteView.setImageViewResource(R.id.image, IMAGES[0]);
-		            	 msg = "Loud Mode";
 	            	}else{
 	            		remoteView.setImageViewResource(R.id.image, IMAGES[1]);
-		            	msg = "Normal Mode";
 	            	}
 	             }else if(ringerMode==AudioManager.RINGER_MODE_VIBRATE){
 	            	 remoteView.setImageViewResource(R.id.image, IMAGES[2]);
-	            	 msg = "Vibrate Mode";
 	             }else if(ringerMode==AudioManager.RINGER_MODE_SILENT){
 	            	 remoteView.setImageViewResource(R.id.image, IMAGES[3]);
-	            	 msg = "Silent Mode";
 	             }      
     		}
     		
@@ -148,7 +133,7 @@ public class Ringer extends AppWidgetProvider {
             manager.updateAppWidget(thisWidget, remoteView);
     		
             //Notify user
-   			Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
+   			//Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
             
    			//Notify
 //		    PendingIntent notificationIntent = PendingIntent.getActivity(context, 0, intent, 0); 
